@@ -24,6 +24,7 @@ target/
 **/target/
 .gradle/
 classes/
+frontend/scripts/dist-test/
 *.class
 *.jar
 *.war

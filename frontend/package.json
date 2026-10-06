@@ -8,7 +8,8 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "typecheck": "vue-tsc --noEmit"
+    "typecheck": "vue-tsc --noEmit",
+    "verify": "tsc -p tsconfig.test.json && node --experimental-loader ./scripts/alias-loader.mjs scripts/verify-displacement.mjs"
   },
   "dependencies": {
     "pinia": "^2.1.7",

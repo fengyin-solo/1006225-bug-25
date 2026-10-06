@@ -1,4 +1,5 @@
 import { MODULE_BY_KEY } from '@/data/modules'
+import { getOverview as getDisplacementOverview } from '@/data/displacement/service'
 import { allRows, listRows, resetRows, saveRows } from '@/data/local-store'
 import type { ActionResult, EntryRow, ModuleMeta, OverviewResult, PageResult } from '@/data/types'
 
@@ -87,6 +88,16 @@ export function downloadEntries(key: string): void {
 export function loadOverview(): OverviewResult {
   const rows = allRows()
   const modules = [...MODULE_BY_KEY.values()].map((meta) => {
+    if (meta.key === 'displacement') {
+      // 位移模块走独立领域层：卡片数与页面/超限清单/导出是同一份口径
+      const overview = getDisplacementOverview()
+      return {
+        name: meta.name,
+        created: overview.stats.totalPoints,
+        pending: overview.stats.pending,
+        abnormal: overview.stats.overlimit,
+      }
+    }
     const entries = rows[meta.key] ?? []
     return {
       name: meta.name,

@@ -37,6 +37,7 @@
       <thead>
         <tr>
           <th v-for="column in columns" :key="column">{{ column }}</th>
+          <th>缺陷来源</th>
           <th>当前状态</th>
           <th>可执行动作</th>
         </tr>
@@ -44,6 +45,10 @@
       <tbody>
         <tr v-for="row in rows" :key="String(row.id)">
           <td v-for="column in columns" :key="column">{{ row[column] ?? '—' }}</td>
+          <td>
+            <span v-if="row['来源测点']" class="state-tag">来自位移监测·{{ row['来源测点'] }}</span>
+            <span v-else class="muted">手工登记</span>
+          </td>
           <td>{{ row.status }}</td>
           <td class="row-actions">
             <button
@@ -58,7 +63,7 @@
           </td>
         </tr>
         <tr v-if="!rows.length">
-          <td :colspan="columns.length + 2" class="empty-state">暂无缺陷处置数据，可先登记设备缺陷</td>
+          <td :colspan="columns.length + 3" class="empty-state">暂无缺陷处置数据，可先登记设备缺陷</td>
         </tr>
       </tbody>
     </table>
@@ -135,3 +140,8 @@ function reload() {
 
 onMounted(reload)
 </script>
+
+<style scoped>
+.state-tag { background: #fee4e2; color: #b42318; border-radius: 999px; padding: 1px 8px; font-size: 12px; }
+.muted { color: #64748b; font-size: 12px; }
+</style>
