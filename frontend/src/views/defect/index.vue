@@ -82,7 +82,7 @@ import {
 import type { EntryRow } from '@/data/types'
 
 const meta = moduleMeta('defect')
-const columns = ["缺陷编号", "设备名称", "缺陷描述", "缺陷等级", "发现日期", "处理期限", "处理人员", "缺陷状态"]
+const columns = ["缺陷编号", "设备名称", "缺陷描述", "缺陷等级", "发现日期", "处理期限", "处理人员", "关联来源", "缺陷状态"]
 const actions = ["派发处理", "确认消除", "登记挂账"]
 const statuses = ["待处理", "处理中", "已消除", "已挂账"]
 const stats = [{"label": "待处理缺陷", "value": 0}, {"label": "处理中缺陷", "value": 0}, {"label": "已消除缺陷", "value": 0}]

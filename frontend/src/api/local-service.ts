@@ -1,5 +1,6 @@
 import { MODULE_BY_KEY } from '@/data/modules'
 import { allRows, listRows, resetRows, saveRows } from '@/data/local-store'
+import { summary as displacementSummary } from '@/api/displacement-service'
 import type { ActionResult, EntryRow, ModuleMeta, OverviewResult, PageResult } from '@/data/types'
 
 // 会写进数据的「往回走」动作：命中就把这条记录标成异常态，看板上能一眼看出来。
@@ -86,7 +87,17 @@ export function downloadEntries(key: string): void {
 
 export function loadOverview(): OverviewResult {
   const rows = allRows()
+  const disp = displacementSummary()
   const modules = [...MODULE_BY_KEY.values()].map((meta) => {
+    if (meta.key === 'displacement') {
+      // 位移领域独立存储：待处理含超限与暂不可判定，异常量取超限测点数。
+      return {
+        name: meta.name,
+        created: disp.total,
+        pending: disp.overLimit + disp.unknown,
+        abnormal: disp.overLimit,
+      }
+    }
     const entries = rows[meta.key] ?? []
     return {
       name: meta.name,
